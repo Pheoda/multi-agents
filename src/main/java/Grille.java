@@ -7,10 +7,11 @@ public class Grille {
 
     public Grille(int size) {
         this.size = size;
+        this.agents = new ArrayList<Agent>();
     }
 
-    public void addAgent(Agent agent) {
-        agents.add(agent);
+    public void addAgent(Position initialPosition, Position finalPosition) {
+        agents.add(new Agent(agents.size(), initialPosition, finalPosition));
     }
 
     public ArrayList<Agent> getAgents() {
@@ -32,4 +33,5 @@ public class Grille {
     public void moveDown(int idAgent) {
         agents.get(idAgent).moveDown();
     }
+
 }

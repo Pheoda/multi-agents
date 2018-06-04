@@ -47,7 +47,7 @@ public class Agent implements Runnable {
     }
 
     public void run() {
-        while() {
+        while(true) {
 
         }
     }
