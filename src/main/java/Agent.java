@@ -1,3 +1,5 @@
+import graphics.Window;
+
 public class Agent implements Runnable {
 
     public enum MOVE {
@@ -62,12 +64,13 @@ public class Agent implements Runnable {
         move = MOVE.DOWN;
     }
 
+
     public boolean rightPosition() {
         return position.equals(finalPosition);
     }
 
     public boolean samePosition(Agent agent) {
-        this.position.equals(agent.position);
+        return this.position.equals(agent.position);
     }
 
     public void run() {
@@ -80,6 +83,7 @@ public class Agent implements Runnable {
                 }
                 Grille.getInstance().move(this);
             }
+
         }
     }
 }

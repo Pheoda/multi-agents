@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 
 public class Grille {
 
@@ -12,7 +10,9 @@ public class Grille {
 
     private Grille(int size) {
         this.size = size;
+        this.agents = new ArrayList<Agent>();
     }
+
 
     public static Grille getInstance(int size) {
         if (INSTANCE == null) {
@@ -25,8 +25,8 @@ public class Grille {
         return INSTANCE;
     }
 
-    public void addAgent(Agent agent) {
-        agents.add(agent);
+    public void addAgent(Position initialPosition, Position finalPosition) {
+        agents.add(new Agent(agents.size(), initialPosition, finalPosition));
     }
 
     public ArrayList<Agent> getAgents() {
@@ -117,4 +117,5 @@ public class Grille {
     public boolean finalPositionsForAll() {
         return this.getAgents().stream().allMatch(Agent::rightPosition);
     }
+
 }
