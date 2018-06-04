@@ -1,3 +1,5 @@
+import graphics.Window;
+
 public class Agent implements Runnable {
 
     private int id;
@@ -48,7 +50,6 @@ public class Agent implements Runnable {
 
     public void run() {
         while(true) {
-
         }
     }
 }

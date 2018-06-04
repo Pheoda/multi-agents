@@ -15,6 +15,6 @@ public class Main {
         grille.addAgent(new Position(0, 0), new Position(1, 2));
         grille.addAgent(new Position(0, 1), new Position(0, 0));
 
-        Window window = new Window();
+        Window window = Window.getInstance();
     }
 }
