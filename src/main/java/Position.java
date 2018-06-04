@@ -22,4 +22,13 @@ public class Position {
     public void setY(int y) {
         this.y = y;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj != null && obj.getClass() == this.getClass()) {
+            Position pos = (Position)obj;
+            return this.x == pos.getX() && this.y == pos.getY();
+        }
+        return false;
+    }
 }
