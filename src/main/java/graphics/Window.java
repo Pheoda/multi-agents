@@ -4,7 +4,6 @@ import agent.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -23,22 +22,23 @@ public class Window extends JFrame implements Observer {
         grid = Grille.getInstance();
 
         gridLayout = new GridLayout(grid.getSize(), grid.getSize());
+        this.setLayout(gridLayout);
 
         labels = new JLabel[grid.getSize()][grid.getSize()];
+
 
         for(int row = 0; row < gridLayout.getRows(); row++) {
             for(int column = 0; column < gridLayout.getColumns(); column++) {
                 JLabel label = new JLabel("INIT");
                 label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 labels[column][row] = label;
+                this.add(labels[column][row], column, row);
             }
         }
 
         for (Agent agent : grid.getAgents()) {
             agent.addObserver(this);
         }
-
-        this.setLayout(gridLayout);
 
         this.setVisible(true);
     }
@@ -53,8 +53,10 @@ public class Window extends JFrame implements Observer {
                     if (agent.getPosition() == new Position(column, row))
                         label.setName("AGENT");
                 }
+                this.removeAll();
                 labels[column][row].removeAll();
                 labels[column][row].add(label);
+                this.add(labels[column][row], column, row);
             }
 
         repaint();
