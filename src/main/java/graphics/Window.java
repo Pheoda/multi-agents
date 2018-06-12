@@ -1,19 +1,21 @@
 package graphics;
 
-import agent.Grille;
+import agent.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
 public class Window extends JFrame implements Observer {
 
     private GridLayout gridLayout;
-    private static Window INSTANCE = null;
     private Grille grid;
 
-    private Window() {
+    private JLabel[][] labels;
+
+    public Window() {
         this.setTitle("Interaction multi-agents");
         this.setSize(640, 640);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -22,26 +24,40 @@ public class Window extends JFrame implements Observer {
 
         gridLayout = new GridLayout(grid.getSize(), grid.getSize());
 
+        labels = new JLabel[grid.getSize()][grid.getSize()];
+
+        for(int row = 0; row < gridLayout.getRows(); row++) {
+            for(int column = 0; column < gridLayout.getColumns(); column++) {
+                JLabel label = new JLabel("INIT");
+                label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                labels[column][row] = label;
+            }
+        }
+
+        for (Agent agent : grid.getAgents()) {
+            agent.addObserver(this);
+        }
+
         this.setLayout(gridLayout);
 
         this.setVisible(true);
     }
 
-    public static Window getInstance() {
-        if (INSTANCE == null)
-            INSTANCE = new Window();
-        return INSTANCE;
-    }
-
     public void update(Observable o, Object arg) {
+        System.out.println("UPDATE");
         for (int column = 0; column < gridLayout.getColumns(); column++)
             for (int row = 0; row < gridLayout.getRows(); row++) {
-                // TODO : get label from grid
+                JLabel label = new JLabel("void");
 
-                JLabel label = new JLabel("label");
-                label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                this.add(label);
+                for (Agent agent : grid.getAgents()) {
+                    if (agent.getPosition() == new Position(column, row))
+                        label.setName("AGENT");
+                }
+                labels[column][row].removeAll();
+                labels[column][row].add(label);
             }
 
+        repaint();
+        revalidate();
     }
 }

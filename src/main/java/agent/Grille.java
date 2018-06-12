@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Grille {
 
-
     private int size;
     private ArrayList<Agent> agents;
     private static Grille INSTANCE = null;
@@ -29,6 +28,12 @@ public class Grille {
 
     public void addAgent(Position initialPosition, Position finalPosition) {
         agents.add(new Agent(agents.size(), initialPosition, finalPosition));
+    }
+
+    public void runAgents() {
+        for (Agent agent : agents) {
+            new Thread(agent).start();
+        }
     }
 
     public ArrayList<Agent> getAgents() {
@@ -93,21 +98,22 @@ public class Grille {
 
         // if not moving
         if (oldPosition == agent.getPosition()) {
+            Position messagePosition = null;
             switch (agent.getMove()) {
                 case UP:
-                    new Message(agent, new Position(agent.getPosition().getX(), agent.getPosition().getY() - 1)).sendIfPossible();
+                    messagePosition = new Position(agent.getPosition().getX(), agent.getPosition().getY() - 1);
                     break;
                 case DOWN:
-                    new Message(agent, new Position(agent.getPosition().getX(), agent.getPosition().getY() + 1)).sendIfPossible();
+                    messagePosition = new Position(agent.getPosition().getX(), agent.getPosition().getY() + 1);
                     break;
                 case LEFT:
-                    new Message(agent, new Position(agent.getPosition().getX() - 1, agent.getPosition().getY())).sendIfPossible();
+                    messagePosition = new Position(agent.getPosition().getX() - 1, agent.getPosition().getY());
                     break;
                 case RIGHT:
-                    new Message(agent, new Position(agent.getPosition().getX() + 1, agent.getPosition().getY())).sendIfPossible();
+                    messagePosition = new Position(agent.getPosition().getX() + 1, agent.getPosition().getY());
                     break;
             }
-
+            new Message(agent, messagePosition).sendIfPossible();
         }
     }
 

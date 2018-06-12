@@ -1,8 +1,11 @@
 package agent;
 
-import java.util.ArrayList;
+import graphics.Window;
 
-public class Agent implements Runnable {
+import java.util.ArrayList;
+import java.util.Observable;
+
+public class Agent extends Observable implements Runnable {
 
     public enum MOVE {
         UP,
@@ -81,7 +84,17 @@ public class Agent implements Runnable {
     }
 
     public void run() {
-        while (!Grille.getInstance().finalPositionsForAll()) {
+        System.out.println("AGENT STARTED");
+        while(true) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            setChanged();
+            notifyObservers();
+        }
+        /*while (!Grille.getInstance().finalPositionsForAll()) {
             if (!this.rightPosition()) {
                 try {
                     Thread.sleep(100);
@@ -90,7 +103,6 @@ public class Agent implements Runnable {
                 }
                 Grille.getInstance().move(this);
             }
-
-        }
+        }*/
     }
 }
