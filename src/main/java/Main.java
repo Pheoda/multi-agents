@@ -1,3 +1,6 @@
+import agent.Grille;
+import agent.Message;
+import agent.Position;
 import graphics.Window;
 
 import java.util.ArrayList;

@@ -1,4 +1,6 @@
-import graphics.Window;
+package agent;
+
+import java.util.ArrayList;
 
 public class Agent implements Runnable {
 
@@ -13,11 +15,13 @@ public class Agent implements Runnable {
     private Position position;
     private Position finalPosition;
     private MOVE move;
+    private ArrayList<Message> messages;
 
     public Agent(int id, Position position, Position finalPosition) {
         this.id = id;
         this.position = position;
         this.finalPosition = finalPosition;
+        this.messages = new ArrayList<>();
     }
 
     public int getId() {
@@ -64,6 +68,9 @@ public class Agent implements Runnable {
         move = MOVE.DOWN;
     }
 
+    public void addMessage(Message message) {
+        this.messages.add(message);
+    }
 
     public boolean rightPosition() {
         return position.equals(finalPosition);

@@ -1,5 +1,7 @@
 package graphics;
 
+import agent.Grille;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Observable;
@@ -9,14 +11,16 @@ public class Window extends JFrame implements Observer {
 
     private GridLayout gridLayout;
     private static Window INSTANCE = null;
+    private Grille grid;
 
     private Window() {
         this.setTitle("Interaction multi-agents");
         this.setSize(640, 640);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        // TODO : get correct Grid size !
-        gridLayout = new GridLayout(3, 3);
+        grid = Grille.getInstance();
+
+        gridLayout = new GridLayout(grid.getSize(), grid.getSize());
 
         this.setLayout(gridLayout);
 
@@ -24,7 +28,7 @@ public class Window extends JFrame implements Observer {
     }
 
     public static Window getInstance() {
-        if(INSTANCE == null)
+        if (INSTANCE == null)
             INSTANCE = new Window();
         return INSTANCE;
     }
@@ -33,6 +37,7 @@ public class Window extends JFrame implements Observer {
         for (int column = 0; column < gridLayout.getColumns(); column++)
             for (int row = 0; row < gridLayout.getRows(); row++) {
                 // TODO : get label from grid
+
                 JLabel label = new JLabel("label");
                 label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 this.add(label);

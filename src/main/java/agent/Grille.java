@@ -1,3 +1,5 @@
+package agent;
+
 import java.util.ArrayList;
 
 public class Grille {
@@ -93,29 +95,38 @@ public class Grille {
         if (oldPosition == agent.getPosition()) {
             switch (agent.getMove()) {
                 case UP:
-                    agent.sendMessage(findAgentByPosition(new Position(agent.getPosition().getX(), agent.getPosition().getY() - 1)));
+                    new Message(agent, new Position(agent.getPosition().getX(), agent.getPosition().getY() - 1)).sendIfPossible();
                     break;
                 case DOWN:
-                    agent.sendMessage(findAgentByPosition(new Position(agent.getPosition().getX(), agent.getPosition().getY() + 1)));
+                    new Message(agent, new Position(agent.getPosition().getX(), agent.getPosition().getY() + 1)).sendIfPossible();
                     break;
                 case LEFT:
-                    agent.sendMessage(findAgentByPosition(new Position(agent.getPosition().getX() - 1, agent.getPosition().getY())));
+                    new Message(agent, new Position(agent.getPosition().getX() - 1, agent.getPosition().getY())).sendIfPossible();
                     break;
                 case RIGHT:
-                    agent.sendMessage(findAgentByPosition(new Position(agent.getPosition().getX() + 1, agent.getPosition().getY())));
+                    new Message(agent, new Position(agent.getPosition().getX() + 1, agent.getPosition().getY())).sendIfPossible();
                     break;
             }
 
         }
     }
 
-    private Agent findAgentByPosition(Position position) {
-        return agents.stream().filter(agent -> agent.getPosition().equals(position)});
+    public Agent findAgentByPosition(Position position) {
+        for (Agent agent : agents) {
+            if (agent.getPosition() == position)
+                return agent;
+        }
+        return null;
 
+        // Before :
+        //return agents.stream().filter(agent -> agent.getPosition().equals(position));
     }
 
     public boolean finalPositionsForAll() {
         return this.getAgents().stream().allMatch(Agent::rightPosition);
     }
 
+    public int getSize() {
+        return size;
+    }
 }
