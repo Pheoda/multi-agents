@@ -113,7 +113,7 @@ public class Grille {
                     messagePosition = new Position(agent.getPosition().getX() + 1, agent.getPosition().getY());
                     break;
             }
-            new Message(agent, messagePosition).sendIfPossible();
+            new Message(messagePosition).sendIfPossible();
         }
     }
 

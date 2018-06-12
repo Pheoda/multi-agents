@@ -12,6 +12,7 @@ public class Window extends JFrame implements Observer {
     private GridLayout gridLayout;
     private Grille grid;
 
+    private JPanel[][] panels;
     private JLabel[][] labels;
 
     public Window() {
@@ -24,15 +25,19 @@ public class Window extends JFrame implements Observer {
         gridLayout = new GridLayout(grid.getSize(), grid.getSize());
         this.setLayout(gridLayout);
 
+        panels = new JPanel[grid.getSize()][grid.getSize()];
         labels = new JLabel[grid.getSize()][grid.getSize()];
 
 
         for(int row = 0; row < gridLayout.getRows(); row++) {
             for(int column = 0; column < gridLayout.getColumns(); column++) {
+                JPanel panel = new JPanel();
                 JLabel label = new JLabel("INIT");
                 label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                panel.add(label);
                 labels[column][row] = label;
-                this.add(labels[column][row], column, row);
+                panels[column][row] = panel;
+                this.add(panels[column][row], column, row);
             }
         }
 
@@ -48,15 +53,15 @@ public class Window extends JFrame implements Observer {
         for (int column = 0; column < gridLayout.getColumns(); column++)
             for (int row = 0; row < gridLayout.getRows(); row++) {
                 JLabel label = new JLabel("void");
+                label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
                 for (Agent agent : grid.getAgents()) {
-                    if (agent.getPosition() == new Position(column, row))
-                        label.setName("AGENT");
+                    if (agent.getPosition().equals(new Position(column, row)))
+                        label.setText("AGENT");
                 }
-                this.removeAll();
-                labels[column][row].removeAll();
-                labels[column][row].add(label);
-                this.add(labels[column][row], column, row);
+                panels[column][row].removeAll();
+                panels[column][row].add(label);
+                labels[column][row] = label;
             }
 
         repaint();

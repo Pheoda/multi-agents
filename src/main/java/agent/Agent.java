@@ -86,6 +86,7 @@ public class Agent extends Observable implements Runnable {
     public void run() {
         System.out.println("AGENT STARTED");
         while(true) {
+            System.out.println("position : [" + position.getX() + ";" + position.getY() + "]");
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
