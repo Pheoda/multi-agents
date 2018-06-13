@@ -28,6 +28,18 @@ public class Message {
             this.to.addMessage(this);
     }
 
+    public Agent getTo() {
+        return to;
+    }
+
+    public Position getToFree() {
+        return toFree;
+    }
+
+    public TYPE getType() {
+        return type;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
