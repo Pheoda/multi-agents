@@ -7,10 +7,7 @@ import java.util.ArrayList;
 
 public class Main {
 
-    public static ArrayList<Message> communication;
-
     public static void main(String[] args) {
-        communication = new ArrayList<Message>();
 
         Grille grille = Grille.getInstance(3);
         grille.addAgent(new Position(1, 2), new Position(2, 0));

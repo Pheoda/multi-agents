@@ -13,7 +13,6 @@ public class Agent extends Observable implements Runnable {
     private int id;
     private Position position;
     private Position finalPosition;
-    private Position nextPosition;
     private ArrayList<Message> messages;
     private Random rand;
 
@@ -37,10 +36,6 @@ public class Agent extends Observable implements Runnable {
         this.position = position;
     }
 
-    public Position getFinalPosition() {
-        return finalPosition;
-    }
-
     public void moveLeft() {
         checkMoveIsOk(new Position(position.getRow(), position.getColumn() - 1));
     }
@@ -59,26 +54,20 @@ public class Agent extends Observable implements Runnable {
 
     private void checkMoveIsOk(Position nextPosition) {
         if (!Grille.getInstance().samePosition(this)) {
+            System.out.println("DEPLACE : " + this.getId() + "->" + nextPosition);
             this.setPosition(nextPosition);
-        } else {
-            sendMessage(Grille.getInstance().findAgentByPosition(nextPosition), Utils.TYPE.DO);
+        }
+        else {
+            new Message(nextPosition, Utils.TYPE.DO);
         }
     }
-
-    private void sendMessage(Agent agent, Utils.TYPE type) {
-        agent.addMessage(new Message(agent, type));
-    }
-
+    
     public void addMessage(Message message) {
         this.messages.add(message);
     }
 
     public boolean rightPosition() {
         return position.equals(finalPosition);
-    }
-
-    public boolean samePosition(Agent agent) {
-        return this.position.equals(agent.position);
     }
 
     private void move() {
