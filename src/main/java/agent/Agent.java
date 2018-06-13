@@ -10,7 +10,6 @@ public class Agent extends Observable implements Runnable {
     private int id;
     private Position position;
     private Position finalPosition;
-    private Position nextPosition;
     private ArrayList<Message> messages;
 
     public Agent(int id, Position position, Position finalPosition) {
@@ -54,14 +53,10 @@ public class Agent extends Observable implements Runnable {
             this.setPosition(nextPosition);
         }
         else {
-            sendMessage(Grille.getInstance().findAgentByPosition(nextPosition), Utils.TYPE.DO);
+            new Message(nextPosition, Utils.TYPE.DO);
         }
     }
-
-    private void sendMessage(Agent agent, Utils.TYPE type) {
-        agent.addMessage(new Message(agent, type));
-    }
-
+    
     public void addMessage(Message message) {
         this.messages.add(message);
     }
