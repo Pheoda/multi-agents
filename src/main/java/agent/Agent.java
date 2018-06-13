@@ -28,10 +28,6 @@ public class Agent extends Observable implements Runnable {
         this.position = position;
     }
 
-    public Position getFinalPosition() {
-        return finalPosition;
-    }
-
     public void moveLeft() {
         checkMoveIsOk(new Position(position.getRow(), position.getColumn() - 1));
     }
@@ -49,7 +45,8 @@ public class Agent extends Observable implements Runnable {
     }
 
     private void checkMoveIsOk(Position nextPosition) {
-        if (! Grille.getInstance().samePosition(this)) {
+        if (!Grille.getInstance().samePosition(this)) {
+            System.out.println("DEPLACE : " + this.getId() + "->" + nextPosition);
             this.setPosition(nextPosition);
         }
         else {
@@ -64,10 +61,6 @@ public class Agent extends Observable implements Runnable {
 
     public boolean rightPosition() {
         return position.equals(finalPosition);
-    }
-
-    public boolean samePosition(Agent agent) {
-        return this.position.equals(agent.position);
     }
 
     private void move() {
