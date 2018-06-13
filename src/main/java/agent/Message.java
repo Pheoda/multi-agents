@@ -1,6 +1,6 @@
 package agent;
 
-import javax.swing.*;
+import tools.Utils.TYPE;
 
 public class Message {
 
@@ -8,14 +8,16 @@ public class Message {
 
     private Position toFree;
 
+    private TYPE type;
 
     /**
      * agent.Message : create a message with to (can be null)
-     * @param positionToFree : position to be freed
+     * @param agent : agent to be moved
      */
-    public Message(Position positionToFree) {
-        this.to = Grille.getInstance().findAgentByPosition(positionToFree);
-        this.toFree = positionToFree;
+    public Message(Agent agent, TYPE type) {
+        this.to = agent;
+        this.toFree = agent.getPosition();
+        this.type = type;
     }
 
     /**
@@ -24,5 +26,17 @@ public class Message {
     public void sendIfPossible() {
         if(this.to != null)
             this.to.addMessage(this);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj.getClass() != Agent.class) {
+            return false;
+        }
+        Agent agent = (Agent) obj;
+        return this.to.equals(agent) && this.toFree.equals(agent.getPosition());
     }
 }

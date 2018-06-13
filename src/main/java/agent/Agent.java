@@ -1,12 +1,16 @@
 package agent;
 
+import tools.Utils;
+
 import java.util.ArrayList;
 import java.util.Observable;
 
 public class Agent extends Observable implements Runnable {
+
     private int id;
     private Position position;
     private Position finalPosition;
+    private Position nextPosition;
     private ArrayList<Message> messages;
 
     public Agent(int id, Position position, Position finalPosition) {
@@ -50,9 +54,12 @@ public class Agent extends Observable implements Runnable {
             this.setPosition(nextPosition);
         }
         else {
-            System.out.println("MESSAGE : " + this.getId() + "->" + nextPosition);
-            new Message(nextPosition).sendIfPossible();
+            sendMessage(Grille.getInstance().findAgentByPosition(nextPosition), Utils.TYPE.DO);
         }
+    }
+
+    private void sendMessage(Agent agent, Utils.TYPE type) {
+        agent.addMessage(new Message(agent, type));
     }
 
     public void addMessage(Message message) {
