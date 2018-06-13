@@ -46,7 +46,11 @@ public class Panel extends JPanel implements Observer {
 
     private void drawAgents(Graphics g) {
         for (Agent agent : grid.getAgents()) {
-            g.drawString("Agent " + agent.getId(), (int) ((agent.getPosition().getColumn() + 0.5) * 640 / grid.getSize()), (int) ((agent.getPosition().getRow() + 0.5) * 640 / grid.getSize()));
+            if(agent.rightPosition())
+                g.setColor(Color.RED);
+            else
+                g.setColor(Color.BLACK);
+            g.drawString("A " + agent.getId(), (int) ((agent.getPosition().getColumn() + 0.5) * 640 / grid.getSize()), (int) ((agent.getPosition().getRow() + 0.5) * 640 / grid.getSize()));
         }
     }
 }
