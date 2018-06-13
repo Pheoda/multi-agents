@@ -9,11 +9,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Grille grille = Grille.getInstance(3);
-        grille.addAgent(new Position(1, 2), new Position(2, 0));
-        grille.addAgent(new Position(1, 1), new Position(2, 2));
-        grille.addAgent(new Position(0, 0), new Position(2, 1));
-        grille.addAgent(new Position(1, 0), new Position(0, 0));
+        Grille grille = Grille.getInstance(5);
+        grille.generateAgent(10);
 
         Window window = new Window();
 

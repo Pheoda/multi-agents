@@ -1,6 +1,7 @@
 package agent;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Grille {
 
@@ -11,7 +12,7 @@ public class Grille {
 
     private Grille(int size) {
         this.size = size;
-        this.agents = new ArrayList<Agent>();
+        this.agents = new ArrayList<>();
     }
 
 
@@ -24,6 +25,22 @@ public class Grille {
 
     public static Grille getInstance() {
         return INSTANCE;
+    }
+
+    public void generateAgent(int number) {
+        ArrayList<Position> positionsTaken = new ArrayList<>();
+        Random random = new Random();
+
+        for(int i = 0; i < number; i++) {
+            Position randomPosition;
+            do {
+                randomPosition = new Position(random.nextInt(this.size), random.nextInt(this.size));
+            }while (positionsTaken.contains(randomPosition));
+            Position finalPosition = new Position(i / this.size, i % this.size);
+
+            addAgent(randomPosition, finalPosition);
+            positionsTaken.add(randomPosition);
+        }
     }
 
     public void addAgent(Position initialPosition, Position finalPosition) {
@@ -40,12 +57,12 @@ public class Grille {
         return agents;
     }
 
-    public boolean samePosition(Agent agent) {
-        for (Agent a : agents) {
-            if(a.getPosition().equals(agent.getPosition()))
+    public boolean isPositionFree(Position position) {
+        for(Agent agent : agents) {
+            if(agent.getPosition().equals(position))
                 return false;
         }
-        return false;
+        return true;
     }
 
     public Agent findAgentByPosition(Position position) {

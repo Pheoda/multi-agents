@@ -48,15 +48,16 @@ public class Agent extends Observable implements Runnable {
     }
 
     private void checkMoveIsOk(Position nextPosition) {
-        if (!Grille.getInstance().samePosition(this)) {
-            System.out.println("DEPLACE : " + this.getId() + "->" + nextPosition);
+        if (Grille.getInstance().isPositionFree(nextPosition)) {
+            System.out.println("DEPLACE : " + this.id + "->" + nextPosition);
             this.setPosition(nextPosition);
         }
         else {
+            System.out.println("MESSAGE : " + this.id + "->" + nextPosition);
             new Message(nextPosition, Utils.TYPE.DO);
         }
     }
-    
+
     public void addMessage(Message message) {
         this.messages.add(message);
     }
@@ -87,7 +88,14 @@ public class Agent extends Observable implements Runnable {
         }
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        Agent a = (Agent) obj;
+        return a.getId() == this.id;
+    }
+
     public void run() {
+        System.out.println(this.id + " : " + this.position + " -> " + this.finalPosition);
         while(true) {
 //            System.out.println(this.getId() + " : [" + position.getRow() + ";" + position.getColumn() + "]");
             this.move();
