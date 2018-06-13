@@ -18,15 +18,10 @@ public class Agent extends Observable implements Runnable {
         this.position = position;
         this.finalPosition = finalPosition;
         this.messages = new ArrayList<>();
-        this.nextPosition = position;
     }
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public Position getPosition() {
@@ -42,26 +37,22 @@ public class Agent extends Observable implements Runnable {
     }
 
     public void moveLeft() {
-        nextPosition.setRow(position.getRow() - 1);
-        checkMoveIsOk();
+        checkMoveIsOk(new Position(position.getRow(), position.getColumn() - 1));
     }
 
     public void moveRight() {
-        nextPosition.setRow(position.getRow() + 1);
-        checkMoveIsOk();
+        checkMoveIsOk(new Position(position.getRow(), position.getColumn() + 1));
     }
 
     public void moveUp() {
-        nextPosition.setColumn(position.getColumn() - 1);
-        checkMoveIsOk();
+        checkMoveIsOk(new Position(position.getRow() - 1, position.getColumn()));
     }
 
     public void moveDown() {
-        nextPosition.setColumn(position.getColumn() + 1);
-        checkMoveIsOk();
+        checkMoveIsOk(new Position(position.getRow() + 1, position.getColumn()));
     }
 
-    private void checkMoveIsOk() {
+    private void checkMoveIsOk(Position nextPosition) {
         if (! Grille.getInstance().samePosition(this)) {
             this.setPosition(nextPosition);
         }
@@ -87,28 +78,30 @@ public class Agent extends Observable implements Runnable {
     }
 
     private void move() {
-        int size = Grille.getInstance().getSize();
+        int deltaRow = position.getRow() - finalPosition.getRow();
+        int deltaColumn = position.getColumn() - finalPosition.getColumn();
 
-        if (Math.abs(position.getRow() - finalPosition.getRow()) >
-                Math.abs(position.getColumn() - finalPosition.getColumn())) {
-            if (position.getRow() - finalPosition.getRow() > 0) {
-                this.moveUp();
-            } else {
-                this.moveDown();
-            }
-        } else {
-            if (position.getColumn() - finalPosition.getColumn() > 0) {
-                this.moveRight();
-            } else {
-                this.moveLeft();
+        // TODO : Check messages list if agent can't move !
+        if(deltaRow != 0 || deltaColumn != 0) {
+            if (Math.abs(deltaRow) > Math.abs(deltaColumn)) { // Move row
+                if (deltaRow > 0) {
+                    this.moveUp();
+                } else {
+                    this.moveDown();
+                }
+            } else { // Move column
+                if (deltaColumn > 0) {
+                    this.moveLeft();
+                } else {
+                    this.moveRight();
+                }
             }
         }
     }
 
     public void run() {
-        System.out.println("AGENT STARTED");
         while(true) {
-            System.out.println("position : [" + position.getRow() + ";" + position.getColumn() + "]");
+//            System.out.println(this.getId() + " : [" + position.getRow() + ";" + position.getColumn() + "]");
             this.move();
             try {
                 Thread.sleep(1000);
@@ -118,17 +111,5 @@ public class Agent extends Observable implements Runnable {
             setChanged();
             notifyObservers();
         }
-
-
-        /*while (!Grille.getInstance().finalPositionsForAll()) {
-            if (!this.rightPosition()) {
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                Grille.getInstance().move(this);
-            }
-        }*/
     }
 }
