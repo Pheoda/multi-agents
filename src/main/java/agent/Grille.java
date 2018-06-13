@@ -68,7 +68,7 @@ public class Grille {
         }
     }
 
-    private boolean samePosition(Agent agent) {
+    public boolean samePosition(Agent agent) {
         return agents.stream()
                 .filter(agent1 -> agent != agent1)
                 .anyMatch(agent1 -> agent.getPosition().equals(agent1.getPosition()));
@@ -123,9 +123,6 @@ public class Grille {
                 return agent;
         }
         return null;
-
-        // Before :
-        //return agents.stream().filter(agent -> agent.getPosition().equals(position));
     }
 
     public boolean finalPositionsForAll() {

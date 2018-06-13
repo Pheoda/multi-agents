@@ -9,11 +9,11 @@ public class Message {
 
     /**
      * agent.Message : create a message with to (can be null)
-     * @param positionTo : position to be freed
+     * @param agent : agent to be moved
      */
-    public Message(Position positionTo) {
-        this.to = Grille.getInstance().findAgentByPosition(positionTo);
-        this.toFree = positionTo;
+    public Message(Agent agent) {
+        this.to = agent;
+        this.toFree = agent.getPosition();
     }
 
     /**

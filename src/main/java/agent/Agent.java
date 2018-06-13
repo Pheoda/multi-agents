@@ -15,6 +15,7 @@ public class Agent extends Observable implements Runnable {
     private int id;
     private Position position;
     private Position finalPosition;
+    private Position nextPosition;
     private MOVE move;
     private ArrayList<Message> messages;
 
@@ -23,6 +24,7 @@ public class Agent extends Observable implements Runnable {
         this.position = position;
         this.finalPosition = finalPosition;
         this.messages = new ArrayList<>();
+        this.nextPosition = position;
     }
 
     public int getId() {
@@ -50,23 +52,40 @@ public class Agent extends Observable implements Runnable {
     }
 
     public void moveLeft() {
-        position.setRow(position.getRow() - 1);
+        nextPosition.setRow(position.getRow() - 1);
+        checkMoveIsOk();
         move = MOVE.LEFT;
     }
 
     public void moveRight() {
-        position.setRow(position.getRow() + 1);
+        nextPosition.setRow(position.getRow() + 1);
+        checkMoveIsOk();
         move = MOVE.RIGHT;
     }
 
     public void moveUp() {
-        position.setColumn(position.getColumn() - 1);
+        nextPosition.setColumn(position.getColumn() - 1);
+        checkMoveIsOk();
         move = MOVE.UP;
     }
 
     public void moveDown() {
-        position.setColumn(position.getColumn() + 1);
+        nextPosition.setColumn(position.getColumn() + 1);
+        checkMoveIsOk();
         move = MOVE.DOWN;
+    }
+
+    private void checkMoveIsOk() {
+        if (! Grille.getInstance().samePosition(this)) {
+            this.setPosition(nextPosition);
+        }
+        else {
+            sendMessage(Grille.getInstance().findAgentByPosition(nextPosition));
+        }
+    }
+
+    private void sendMessage(Agent agent) {
+        agent.addMessage(new Message(agent));
     }
 
     public void addMessage(Message message) {
@@ -81,10 +100,30 @@ public class Agent extends Observable implements Runnable {
         return this.position.equals(agent.position);
     }
 
+    private void move() {
+        int size = Grille.getInstance().getSize();
+
+        if (Math.abs(position.getRow() - finalPosition.getRow()) >
+                Math.abs(position.getColumn() - finalPosition.getColumn())) {
+            if (position.getRow() - finalPosition.getRow() > 0) {
+                this.moveUp();
+            } else {
+                this.moveDown();
+            }
+        } else {
+            if (position.getColumn() - finalPosition.getColumn() > 0) {
+                this.moveRight();
+            } else {
+                this.moveLeft();
+            }
+        }
+    }
+
     public void run() {
         System.out.println("AGENT STARTED");
         while(true) {
             System.out.println("position : [" + position.getRow() + ";" + position.getColumn() + "]");
+            this.move();
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -93,6 +132,8 @@ public class Agent extends Observable implements Runnable {
             setChanged();
             notifyObservers();
         }
+
+
         /*while (!Grille.getInstance().finalPositionsForAll()) {
             if (!this.rightPosition()) {
                 try {
