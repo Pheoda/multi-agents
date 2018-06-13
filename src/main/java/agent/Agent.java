@@ -52,14 +52,14 @@ public class Agent extends Observable implements Runnable {
         checkMoveIsOk(new Position(position.getRow() + 1, position.getColumn()));
     }
 
-    private void checkMoveIsOk(Position nextPosition) {
+    synchronized private void checkMoveIsOk(Position nextPosition) {
         if (Grille.getInstance().isPositionFree(nextPosition)) {
             System.out.println("DEPLACE : " + this.id + "->" + nextPosition);
             this.setPosition(nextPosition);
         }
         else {
             System.out.println("MESSAGE : " + this.id + "->" + nextPosition);
-            new Message(nextPosition, Utils.TYPE.DO);
+            new Message(nextPosition, Utils.TYPE.DO).sendIfPossible();
         }
     }
 
@@ -71,7 +71,7 @@ public class Agent extends Observable implements Runnable {
         return position.equals(finalPosition);
     }
 
-    private void move() {
+    synchronized private void move() {
         int deltaRow = position.getRow() - finalPosition.getRow();
         int deltaColumn = position.getColumn() - finalPosition.getColumn();
 
