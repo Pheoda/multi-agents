@@ -1,22 +1,16 @@
 package agent;
 
+import tools.Utils;
+
 import java.util.ArrayList;
 import java.util.Observable;
 
 public class Agent extends Observable implements Runnable {
 
-    public enum MOVE {
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT
-    }
-
     private int id;
     private Position position;
     private Position finalPosition;
     private Position nextPosition;
-    private MOVE move;
     private ArrayList<Message> messages;
 
     public Agent(int id, Position position, Position finalPosition) {
@@ -47,32 +41,24 @@ public class Agent extends Observable implements Runnable {
         return finalPosition;
     }
 
-    public MOVE getMove() {
-        return move;
-    }
-
     public void moveLeft() {
         nextPosition.setRow(position.getRow() - 1);
         checkMoveIsOk();
-        move = MOVE.LEFT;
     }
 
     public void moveRight() {
         nextPosition.setRow(position.getRow() + 1);
         checkMoveIsOk();
-        move = MOVE.RIGHT;
     }
 
     public void moveUp() {
         nextPosition.setColumn(position.getColumn() - 1);
         checkMoveIsOk();
-        move = MOVE.UP;
     }
 
     public void moveDown() {
         nextPosition.setColumn(position.getColumn() + 1);
         checkMoveIsOk();
-        move = MOVE.DOWN;
     }
 
     private void checkMoveIsOk() {
@@ -80,12 +66,12 @@ public class Agent extends Observable implements Runnable {
             this.setPosition(nextPosition);
         }
         else {
-            sendMessage(Grille.getInstance().findAgentByPosition(nextPosition));
+            sendMessage(Grille.getInstance().findAgentByPosition(nextPosition), Utils.TYPE.DO);
         }
     }
 
-    private void sendMessage(Agent agent) {
-        agent.addMessage(new Message(agent));
+    private void sendMessage(Agent agent, Utils.TYPE type) {
+        agent.addMessage(new Message(agent, type));
     }
 
     public void addMessage(Message message) {
