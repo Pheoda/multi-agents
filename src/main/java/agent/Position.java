@@ -1,35 +1,35 @@
 package agent;
 
 public class Position {
-    private int x;
-    private int y;
+    private int row;
+    private int column;
 
-    public Position(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Position(int row, int column) {
+        this.row = row;
+        this.column = column;
     }
 
-    public int getX() {
-        return x;
+    public int getRow() {
+        return row;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public int getColumn() {
+        return column;
     }
 
-    public int getY() {
-        return y;
+    public void setRow(int row) {
+        this.row = row;
     }
 
-    public void setY(int y) {
-        this.y = y;
+    public void setColumn(int column) {
+        this.column = column;
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj != null && obj.getClass() == this.getClass()) {
             Position pos = (Position)obj;
-            return this.x == pos.getX() && this.y == pos.getY();
+            return this.row == pos.getRow() && this.column == pos.getColumn();
         }
         return false;
     }

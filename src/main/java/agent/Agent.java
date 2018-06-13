@@ -1,7 +1,5 @@
 package agent;
 
-import graphics.Window;
-
 import java.util.ArrayList;
 import java.util.Observable;
 
@@ -52,22 +50,22 @@ public class Agent extends Observable implements Runnable {
     }
 
     public void moveLeft() {
-        position.setX(position.getX() - 1);
+        position.setRow(position.getRow() - 1);
         move = MOVE.LEFT;
     }
 
     public void moveRight() {
-        position.setX(position.getX() + 1);
+        position.setRow(position.getRow() + 1);
         move = MOVE.RIGHT;
     }
 
     public void moveUp() {
-        position.setY(position.getY() - 1);
+        position.setColumn(position.getColumn() - 1);
         move = MOVE.UP;
     }
 
     public void moveDown() {
-        position.setY(position.getY() + 1);
+        position.setColumn(position.getColumn() + 1);
         move = MOVE.DOWN;
     }
 
@@ -86,7 +84,7 @@ public class Agent extends Observable implements Runnable {
     public void run() {
         System.out.println("AGENT STARTED");
         while(true) {
-            System.out.println("position : [" + position.getX() + ";" + position.getY() + "]");
+            System.out.println("position : [" + position.getRow() + ";" + position.getColumn() + "]");
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {

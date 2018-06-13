@@ -81,18 +81,18 @@ public class Grille {
 
     public void move(Agent agent) {
         Position oldPosition = agent.getPosition();
-        if (Math.abs(agent.getPosition().getX() - agent.getFinalPosition().getX()) >
-                Math.abs(agent.getPosition().getY() - agent.getFinalPosition().getY())) {
-            if (agent.getPosition().getX() - agent.getFinalPosition().getX() > 0) {
-                agent.moveLeft();
-            } else {
-                agent.moveRight();
-            }
-        } else {
-            if (agent.getPosition().getY() - agent.getFinalPosition().getY() > 0) {
+        if (Math.abs(agent.getPosition().getRow() - agent.getFinalPosition().getRow()) >
+                Math.abs(agent.getPosition().getColumn() - agent.getFinalPosition().getColumn())) {
+            if (agent.getPosition().getRow() - agent.getFinalPosition().getRow() > 0) {
                 agent.moveUp();
             } else {
                 agent.moveDown();
+            }
+        } else {
+            if (agent.getPosition().getColumn() - agent.getFinalPosition().getColumn() > 0) {
+                agent.moveRight();
+            } else {
+                agent.moveLeft();
             }
         }
 
@@ -101,16 +101,16 @@ public class Grille {
             Position messagePosition = null;
             switch (agent.getMove()) {
                 case UP:
-                    messagePosition = new Position(agent.getPosition().getX(), agent.getPosition().getY() - 1);
+                    messagePosition = new Position(agent.getPosition().getRow() - 1, agent.getPosition().getColumn());
                     break;
                 case DOWN:
-                    messagePosition = new Position(agent.getPosition().getX(), agent.getPosition().getY() + 1);
+                    messagePosition = new Position(agent.getPosition().getRow() + 1, agent.getPosition().getColumn());
                     break;
                 case LEFT:
-                    messagePosition = new Position(agent.getPosition().getX() - 1, agent.getPosition().getY());
+                    messagePosition = new Position(agent.getPosition().getRow(), agent.getPosition().getColumn() + 1);
                     break;
                 case RIGHT:
-                    messagePosition = new Position(agent.getPosition().getX() + 1, agent.getPosition().getY());
+                    messagePosition = new Position(agent.getPosition().getRow(), agent.getPosition().getColumn() - 1);
                     break;
             }
             new Message(messagePosition).sendIfPossible();

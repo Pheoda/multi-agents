@@ -13,10 +13,10 @@ public class Main {
         communication = new ArrayList<Message>();
 
         Grille grille = Grille.getInstance(3);
-        grille.addAgent(new Position(2, 1), new Position(3, 2));
+        grille.addAgent(new Position(1, 2), new Position(2, 3));
         grille.addAgent(new Position(1, 1), new Position(2, 2));
-        grille.addAgent(new Position(0, 0), new Position(1, 2));
-        grille.addAgent(new Position(0, 1), new Position(0, 0));
+        grille.addAgent(new Position(0, 0), new Position(2, 1));
+        grille.addAgent(new Position(1, 0), new Position(0, 0));
 
         Window window = new Window();
 
