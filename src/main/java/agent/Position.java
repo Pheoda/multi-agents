@@ -17,20 +17,17 @@ public class Position {
         return column;
     }
 
-    public void setRow(int row) {
-        this.row = row;
-    }
-
-    public void setColumn(int column) {
-        this.column = column;
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (obj != null && obj.getClass() == this.getClass()) {
-            Position pos = (Position)obj;
+            Position pos = (Position) obj;
             return this.row == pos.getRow() && this.column == pos.getColumn();
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "[" + row + ";" + column + ']';
     }
 }

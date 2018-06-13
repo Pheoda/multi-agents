@@ -1,5 +1,7 @@
 package agent;
 
+import javax.swing.*;
+
 public class Message {
 
     private Agent to;    // Can be null !
@@ -9,11 +11,11 @@ public class Message {
 
     /**
      * agent.Message : create a message with to (can be null)
-     * @param agent : agent to be moved
+     * @param positionToFree : position to be freed
      */
-    public Message(Agent agent) {
-        this.to = agent;
-        this.toFree = agent.getPosition();
+    public Message(Position positionToFree) {
+        this.to = Grille.getInstance().findAgentByPosition(positionToFree);
+        this.toFree = positionToFree;
     }
 
     /**

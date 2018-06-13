@@ -40,34 +40,6 @@ public class Grille {
         return agents;
     }
 
-    public void moveLeft(int idAgent) {
-        agents.get(idAgent).moveLeft();
-        if (samePosition()) {
-            agents.get(idAgent).moveRight();
-        }
-    }
-
-    public void moveRight(int idAgent) {
-        agents.get(idAgent).moveRight();
-        if (samePosition()) {
-            agents.get(idAgent).moveLeft();
-        }
-    }
-
-    public void moveUp(int idAgent) {
-        agents.get(idAgent).moveUp();
-        if (samePosition()) {
-            agents.get(idAgent).moveDown();
-        }
-    }
-
-    public void moveDown(int idAgent) {
-        agents.get(idAgent).moveDown();
-        if (samePosition()) {
-            agents.get(idAgent).moveUp();
-        }
-    }
-
     public boolean samePosition(Agent agent) {
         return agents.stream()
                 .filter(agent1 -> agent != agent1)
@@ -78,55 +50,12 @@ public class Grille {
         return agents.stream().anyMatch(agent -> samePosition(agent));
     }
 
-
-    public void move(Agent agent) {
-        Position oldPosition = agent.getPosition();
-        if (Math.abs(agent.getPosition().getRow() - agent.getFinalPosition().getRow()) >
-                Math.abs(agent.getPosition().getColumn() - agent.getFinalPosition().getColumn())) {
-            if (agent.getPosition().getRow() - agent.getFinalPosition().getRow() > 0) {
-                agent.moveUp();
-            } else {
-                agent.moveDown();
-            }
-        } else {
-            if (agent.getPosition().getColumn() - agent.getFinalPosition().getColumn() > 0) {
-                agent.moveRight();
-            } else {
-                agent.moveLeft();
-            }
-        }
-
-        // if not moving
-        if (oldPosition == agent.getPosition()) {
-            Position messagePosition = null;
-            switch (agent.getMove()) {
-                case UP:
-                    messagePosition = new Position(agent.getPosition().getRow() - 1, agent.getPosition().getColumn());
-                    break;
-                case DOWN:
-                    messagePosition = new Position(agent.getPosition().getRow() + 1, agent.getPosition().getColumn());
-                    break;
-                case LEFT:
-                    messagePosition = new Position(agent.getPosition().getRow(), agent.getPosition().getColumn() + 1);
-                    break;
-                case RIGHT:
-                    messagePosition = new Position(agent.getPosition().getRow(), agent.getPosition().getColumn() - 1);
-                    break;
-            }
-            new Message(messagePosition).sendIfPossible();
-        }
-    }
-
     public Agent findAgentByPosition(Position position) {
         for (Agent agent : agents) {
             if (agent.getPosition() == position)
                 return agent;
         }
         return null;
-    }
-
-    public boolean finalPositionsForAll() {
-        return this.getAgents().stream().allMatch(Agent::rightPosition);
     }
 
     public int getSize() {
