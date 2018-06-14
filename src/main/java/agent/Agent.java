@@ -5,7 +5,6 @@ import tools.Utils;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Random;
-import java.util.concurrent.Semaphore;
 
 public class Agent extends Observable implements Runnable {
 
@@ -58,7 +57,7 @@ public class Agent extends Observable implements Runnable {
         }
         else {
             System.out.println("MESSAGE : " + this.id + "->" + nextPosition);
-            new Message(nextPosition, Utils.TYPE.DO);
+            new Message(nextPosition, Utils.TYPE.DO).sendIfPossible();
         }
     }
 
