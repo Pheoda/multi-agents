@@ -2,6 +2,7 @@ package agent;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.Semaphore;
 
 public class Grille {
 
@@ -9,12 +10,14 @@ public class Grille {
     private ArrayList<Agent> agents;
     private static Grille INSTANCE = null;
 
+    private Semaphore semaphore;
+
 
     private Grille(int size) {
         this.size = size;
         this.agents = new ArrayList<>();
+        this.semaphore = new Semaphore(1);
     }
-
 
     public static Grille getInstance(int size) {
         if (INSTANCE == null) {
@@ -25,6 +28,10 @@ public class Grille {
 
     public static Grille getInstance() {
         return INSTANCE;
+    }
+
+    public Semaphore getSemaphore() {
+        return semaphore;
     }
 
     public void generateAgent(int number) {

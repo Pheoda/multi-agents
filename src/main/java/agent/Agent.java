@@ -3,10 +3,9 @@ package agent;
 import tools.Utils;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 import java.util.Random;
-import java.util.stream.Collectors;
+import java.util.concurrent.Semaphore;
 
 public class Agent extends Observable implements Runnable {
 
@@ -71,7 +70,14 @@ public class Agent extends Observable implements Runnable {
         return position.equals(finalPosition);
     }
 
+
     private void move() {
+        // semaphore : on prend un jeton
+        try {
+            Grille.getInstance().getSemaphore().acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         int deltaRow = position.getRow() - finalPosition.getRow();
         int deltaColumn = position.getColumn() - finalPosition.getColumn();
 
@@ -93,6 +99,8 @@ public class Agent extends Observable implements Runnable {
                 }
             }
         }
+        // on repose un jeton
+        Grille.getInstance().getSemaphore().release();
     }
 
     @Override
