@@ -65,6 +65,11 @@ public class Grille {
     }
 
     public boolean isPositionFree(Position position) {
+        // Out of bound check
+        if(position.getColumn() < 0 || position.getColumn() >= this.size || position.getRow() < 0 || position.getRow() >= this.size)
+            return false;
+
+        // Agents check
         for(Agent agent : agents) {
             if(agent.getPosition().equals(position))
                 return false;
@@ -74,7 +79,7 @@ public class Grille {
 
     public Agent findAgentByPosition(Position position) {
         for (Agent agent : agents) {
-            if (agent.getPosition() == position)
+            if (agent.getPosition().equals(position))
                 return agent;
         }
         return null;
