@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
 
         Grille grille = Grille.getInstance(5);
-        grille.generateAgent(10);
+        grille.generateAgent(18);
 
         Window window = new Window();
 

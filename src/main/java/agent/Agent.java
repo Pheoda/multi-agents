@@ -86,6 +86,10 @@ public class Agent extends Observable implements Runnable {
         int deltaRow = position.getRow() - finalPosition.getRow();
         int deltaColumn = position.getColumn() - finalPosition.getColumn();
 
+        /* TODO : ici, si un autre Agent bloque celui-ci, il faudrait faire en sorte qu'il puisse vérifier
+        si l'autre position qui lui ferait gagner du terrain n'est pas libre. On évite ainsi de faire déplacer un agent pour rien.
+         */
+
         if (deltaRow != 0 || deltaColumn != 0) {
             if (Math.abs(deltaRow) > Math.abs(deltaColumn)) { // Move row
                 if (deltaRow > 0) {
@@ -160,3 +164,5 @@ public class Agent extends Observable implements Runnable {
         }
     }
 }
+
+

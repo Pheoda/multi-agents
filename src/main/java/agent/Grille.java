@@ -35,23 +35,31 @@ public class Grille {
     }
 
     public void generateAgent(int number) {
+        ArrayList<Integer> idGenerated = new ArrayList<>();
         ArrayList<Position> positionsTaken = new ArrayList<>();
         Random random = new Random();
 
-        for(int i = 0; i < number; i++) {
+        for (int i = 0; i < number; i++) {
+            int randomId;
+            do {
+                randomId = random.nextInt(size * size);
+            } while (idGenerated.contains(randomId));
+            idGenerated.add(randomId);
+
             Position randomPosition;
             do {
                 randomPosition = new Position(random.nextInt(this.size), random.nextInt(this.size));
-            }while (positionsTaken.contains(randomPosition));
-            Position finalPosition = new Position(i / this.size, i % this.size);
-
-            addAgent(randomPosition, finalPosition);
+            } while (positionsTaken.contains(randomPosition));
             positionsTaken.add(randomPosition);
+
+            Position finalPosition = new Position(randomId / this.size, randomId % this.size);
+
+            addAgent(randomPosition, finalPosition, randomId);
         }
     }
 
-    public void addAgent(Position initialPosition, Position finalPosition) {
-        agents.add(new Agent(agents.size(), initialPosition, finalPosition));
+    public void addAgent(Position initialPosition, Position finalPosition, int id) {
+        agents.add(new Agent(id, initialPosition, finalPosition));
     }
 
     public void runAgents() {
@@ -66,12 +74,12 @@ public class Grille {
 
     public boolean isPositionFree(Position position) {
         // Out of bound check
-        if(position.getColumn() < 0 || position.getColumn() >= this.size || position.getRow() < 0 || position.getRow() >= this.size)
+        if (position.getColumn() < 0 || position.getColumn() >= this.size || position.getRow() < 0 || position.getRow() >= this.size)
             return false;
 
         // Agents check
-        for(Agent agent : agents) {
-            if(agent.getPosition().equals(position))
+        for (Agent agent : agents) {
+            if (agent.getPosition().equals(position))
                 return false;
         }
         return true;
