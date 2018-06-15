@@ -23,12 +23,12 @@ public class WindowParameter extends JFrame {
         panelRight = new JPanel();
 
         gridSize = new JSpinner(new SpinnerNumberModel(3, 1, 15, 1));
-        agentNumber = new JSpinner(new SpinnerNumberModel(10, 1, 30, 1));
+        agentNumber = new JSpinner(new SpinnerNumberModel(5, 1, 30, 1));
 
         labelGrid = new JLabel("Taille de la grille ");
         labelAgent = new JLabel("Nombre d'agents ");
 
-        this.setTitle("Paramètrage de l'application");
+        this.setTitle("Paramétrage de l'application");
         this.setSize(640, 150);
 
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
