@@ -133,7 +133,7 @@ public class Agent extends Observable implements Runnable {
         if (grid.isPositionFree(positionTested)) // Bas
             possibleMoves.add(positionTested);
 
-        positionTested = new Position(this.position.getRow(), this.position.getColumn() + 1);
+        positionTested = new Position(this.position.getRow(), this.position.getColumn() - 1);
         if (grid.isPositionFree(positionTested)) // Gauche
             possibleMoves.add(positionTested);
 
