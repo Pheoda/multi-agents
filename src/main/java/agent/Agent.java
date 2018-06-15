@@ -91,7 +91,9 @@ public class Agent extends Observable implements Runnable {
          */
 
         if (deltaRow != 0 || deltaColumn != 0) {
-            if (Math.abs(deltaRow) > Math.abs(deltaColumn)) { // Move row
+            int prob = rand.nextInt(100); // Move probability
+
+            if (prob <= (Math.abs(deltaRow) / (Math.abs(deltaRow) + Math.abs(deltaColumn)) * 100)) { // Move row
                 if (deltaRow > 0) {
                     this.moveUp();
                 } else {

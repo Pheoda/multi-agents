@@ -9,7 +9,15 @@ public class Main {
 
 
         // TODO : Ajouter première interface demandant la taille de la grille et le nombre d'agents
-        //JFrame frame = new JFrame();
+//        JFrame frame = new JFrame();
+//        JSpinner gridSize = new JSpinner();
+//        JSpinner agentNumber = new JSpinner();
+//
+//        frame
+//        frame.add(gridSize);
+//        frame.add(agentNumber);
+//
+//        frame.setVisible(true);
 
 
         Grille grille = Grille.getInstance(5);
