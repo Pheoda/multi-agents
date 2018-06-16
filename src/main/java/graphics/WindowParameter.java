@@ -30,7 +30,6 @@ public class WindowParameter extends JFrame {
 
         this.setTitle("Paramétrage de l'application");
         this.setSize(640, 150);
-
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 
@@ -46,7 +45,7 @@ public class WindowParameter extends JFrame {
 
         this.getContentPane().add(panelRight);
 
-        JButton button = new JButton("OK");
+        JButton button = new JButton("Lancer");
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -75,6 +74,6 @@ public class WindowParameter extends JFrame {
     }
 
     private boolean correctParameters() {
-        return ((int)agentNumber.getValue() + 1) < ((int)gridSize.getValue() * (int)gridSize.getValue());
+        return ((int)agentNumber.getValue()) < ((int)gridSize.getValue() * (int)gridSize.getValue());
     }
 }

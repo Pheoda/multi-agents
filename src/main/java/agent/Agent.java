@@ -63,9 +63,12 @@ public class Agent extends Observable implements Runnable {
             else {
                 // 20% de chance random move au lieu de demander de bouger
                 int prob = rand.nextInt(100);
-                if(prob < 80)
-                    Grille.getInstance().findAgentByPosition(nextPosition).askToMove();
-                else
+                if (prob < 80) {
+                    try {
+                        Grille.getInstance().findAgentByPosition(nextPosition).askToMove();
+                    } catch (Exception e) {
+                    }
+                } else
                     randomMove();
             }
         }
@@ -93,7 +96,7 @@ public class Agent extends Observable implements Runnable {
         if (deltaRow != 0 || deltaColumn != 0) {
             int prob = rand.nextInt(100); // Move probability
 
-            if (prob <= (Math.abs(deltaRow) / (Math.abs(deltaRow) + Math.abs(deltaColumn)) * 100)) { // Move row
+            if (prob <= (Math.abs(deltaRow) / (float)(Math.abs(deltaRow) + Math.abs(deltaColumn)) * 100)) { // Move row
                 if (deltaRow > 0) {
                     this.moveUp();
                 } else {
@@ -106,8 +109,7 @@ public class Agent extends Observable implements Runnable {
                     this.moveRight();
                 }
             }
-        }
-        else {
+        } else {
             if (this.hasToMove && randomMove()) // S'il faut bouger et qu'on peut faire un random move
                 this.hasToMove = false;
         }
@@ -151,9 +153,7 @@ public class Agent extends Observable implements Runnable {
     }
 
     public void run() {
-//        System.out.println(this.id + " : " + this.position + " -> " + this.finalPosition);
         while (true) {
-//            System.out.println(this.getId() + " : [" + position.getRow() + ";" + position.getColumn() + "]");
             this.move();
             try {
                 // Sleep between 0 and 100 ms
